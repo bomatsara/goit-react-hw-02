@@ -1,0 +1,10 @@
+.wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 15px 0;
+}
+
+.button {
+    cursor: pointer;
+}
