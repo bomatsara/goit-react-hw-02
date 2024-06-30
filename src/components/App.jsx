@@ -3,6 +3,7 @@ import Description from './Description/Description.jsx';
 import Options from './Options/Options.jsx';
 import Feedback from './Feedback/Feedback.jsx';
 import { useEffect, useState } from 'react';
+import Notification from './Notification/Notification.jsx';
 
 export default function App() {
   const defaultValues = {
@@ -36,17 +37,26 @@ export default function App() {
     setValues(defaultValues);
   };
 
-  const getTotal = () => {
-    const { good, neutral, bad } = values;
-    return good + neutral + bad;
-  };
+  const total = values.good + values.neutral + values.bad;
+  const positivePercentage = total === 0 ? 0 : Math.round((values.good / total) * 100);
 
   return (
     <>
       <Section className="section-test">
         <Description />
-        <Options total={getTotal()} onClickHandle={updateFeedback} onResetHandle={resetFeedback} />
-        <Feedback total={getTotal()} values={values} />
+        <Options
+          total={total}
+          onClickHandle={updateFeedback}
+          onResetHandle={resetFeedback}
+        />
+        {total > 0 ?
+          <Feedback
+            total={total}
+            values={values}
+            positivePercentage={positivePercentage}
+          /> :
+          <Notification />
+        }
       </Section>
     </>
   );
